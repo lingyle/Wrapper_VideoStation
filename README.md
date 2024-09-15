@@ -23,16 +23,17 @@ You will can change the order of the audio codecs in the Wrapper, install the mo
 The Installer has Multi Language support (English, Spanish, Portuguese, French, German, Italian).
 
 # Now the Installer has the AME's License Fix: 
-This enables the AAC and HEVC codecs and its license in the AME package, until DSM 7.1.1.
-This patcher enables Advanced Media Extensions 3.0 for you, without having to login account. When you install this License's patch, the Wrapper must be uninstalled and you must to re-install it again.
+This enables the AAC and HEVC codecs and its license in the AME package, until DSM 7.2.
+This patcher enables Advanced Media Extensions 3.0 for you, without having to login account (You still need a valid S/N. If you need to spoof the S/N, please use the synocodectools). When you install this License's patch, the Wrapper must be uninstalled and you must to re-install it again.
+This is not mandatory to have it installed for installing the Wrapper.
 
-*(Use at your own risk, although it has been done to be as safe as possible, there could be errors. (Crack for XPenelogy and Synology without AME's license).*
+*(Use at your own risk, although it has been done to be as safe as possible, there could be errors. (Crack for XPEnology and Synology without AME's license).*
 
 ## Dependencies:
 - DSM 7.0-41890 (and above)
 - Video Station 2.4.6-1594 (and above)
 - SynoCommunity FFMPEG 6.0.2. (and above) ([help](https://synocommunity.com/#easy-install))
-- Advanced Media Extensions 1.0.0-50001 (and above). (The licence in AME must be LOADED.)
+- Advanced Media Extensions 1.0.0-50001 (and above). (The licence in AME must be LOADED and ACTIVATED.)
 
 ## Optional Packages:
 - MediaServer 1.1.0-0201 (and above) (OPTIONAL)
@@ -40,7 +41,7 @@ This patcher enables Advanced Media Extensions 3.0 for you, without having to lo
 ## Supported / Unsupported scenarios:
 - DTS or EAC3 or TrueHD or AAC + Any non standard video format: ✅
 - no DTS, no EAC3, no TrueHD, no AAC + HEVC: ✅
-- DTS or EAC3 or TrueHD or AAC + HEVC: ✅
+- DTS or EAC3 or TrueHD or AAC (5.1 or 7.1) + HEVC: ✅
 - DSM 7.X.X: ✅
 - With DS-XXX PLAY Appliances or Low Powered Devices: ✅ *(I recommend install the Simplest Wrapper. The Advanced needs better CPU or have a GPU available for FFmpeg binary for HEVC decoding.)*
 - DSM 6.2: ⚠️ The installer doesn´t support this version.

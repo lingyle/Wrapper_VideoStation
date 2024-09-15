@@ -1,7 +1,23 @@
 ### CHANGES:
 
 ### SCPT_3.X:
-****SCPT_3.9: Added the possibility to transcode AAC codec in Video Station and Media Server. Added new libraries for GStreamer 1.6.3. for this AAC decoding. Added the word BETA for the cracker of the AME's license.**
+****SCPT_3.9.8: Fixed a bug that did not make thumbnails of .mp4 videos in Video Station. I did changes in the Advanced Wrapper.**
+
+**SCPT_3.9.7:** Added the possibility of changing the number of audio channels in the OffLine transcoding of the Video Station in the Configuration menu. Fixed a Typo in AME License, in two variables. (Deprecated migrated to SCPT_3.9.8)
+
+**SCPT_3.9.6:** Added into the Uninstall Old function the possibility to delete Orphan files generated from others wrappers, like Alex's one. (Deprecated migrated to SCPT_3.9.7)
+
+**SCPT_3.9.5:** Added a new hash for the AME License Patch. (Deprecated migrated to SCPT_3.9.6)
+
+**SCPT_3.9.4:** Changed the installer version for the new Advanced Wrapper version. (Deprecated migrated to SCPT_3.9.5)
+
+**SCPT_3.9.3:** Fixed the possibility to enter to the Start menu if you haven't got the AME License and you want to install the patch for the license in a XPEnology system. (Deprecated migrated to SCPT_3.9.4)
+
+**SCPT_3.9.2:** Homogenize the closing of processes in the Simplest Wrapper with the Advanced Wrapper, to correct a bug carried over from Alex's code. The Advanced Wrapper was and is working fine and don't need fix it. (Deprecated migrated to SCPT_3.9.3)
+
+**SCPT_3.9.1:** Added in the license's crack the patch for the DSM 7.2. (Deprecated migrated to SCPT_3.9.2)
+
+**SCPT_3.9 (LTS):** Added the possibility to transcode AAC codec in Video Station and Media Server. Added new libraries for GStreamer 1.6.3. for this AAC decoding. Added the word BETA for the cracker of the AME's license. (Deprecated migrated to SCPT_3.9.1)
 
 **SCPT_3.8:** Fixed a bug in declaration of the variables for the licenses fix for AME. (Deprecated migrated to SCPT_3.9)
 
@@ -54,7 +70,13 @@
 
 
 ### ADVANCED WRAPPER FOR AME_12.X.X:
-****AME_12.4.2: Fixed a bug when the movies has HEVC 4K HDR 10bits plus TrueHD 7.1 audio's codec.**
+****AME_12.4.5: Fixed a bug that did not make thumbnails of .mp4 videos in Video Station.**
+
+**AME_12.4.4:** Improvements in the VideoStation OffLine Transcoding. Now you can select 2.0 or 5.1 for OffLine transcoding. (Deprecated, migrate to 12.4.5)
+
+**AME_12.4.3:** Added a new error code for the new DSM Versions, now this can be controlled. (Deprecated, migrate to 12.4.4)
+
+**AME_12.4.2:** Fixed a bug when the movies has HEVC 4K HDR 10bits plus TrueHD 7.1 audio's codec. (Deprecated, migrate to 12.4.3)
 
 **AME_12.4.1:** Added support for FFMPEG 6.X binaries and deprecate the use of FFMPEG 4.X. (Deprecated, migrate to 12.4.2)
 
@@ -91,7 +113,9 @@
 
 
 ### SIMPLEST WRAPPER FOR AME_S.X.X:
-****AME_S_2.2: Added support for GStreamer libraries.**
+****AME_S_2.3: Homogenize the closing of processes with the Advanced Wrapper, to correct a bug carried over from Alex's code.**
+
+**AME_S_2.2:** Added support for GStreamer libraries. (Deprecated, migrate to AME_S_2.3)
 
 **AME_S_2.1:** Added support for FFMPEG 6.X binaries and deprecate the FFMPEG 4.X. (Deprecated, migrate to AME_S_2.2)
 

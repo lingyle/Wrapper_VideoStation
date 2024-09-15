@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##############################################################
-version="SCPT_3.9"
+version="SCPT_3.9.8"
 # Changes:
 # SCPT_1.X: See these changes in the releases notes in my Repository in Github. (Deprecated)
 # SCPT_2.X: See these changes in the releases notes in my Repository in Github. (Deprecated)
@@ -14,7 +14,15 @@ version="SCPT_3.9"
 # SCPT_3.6: Added full support for DS21X-Play devices with ARMv8 using a GStreamer's Wrapper. Now the installer recommends to you the Simplest or the Advanced in function of the performance of your system. (Deprecated migrated to SCPT_3.7)
 # SCPT_3.7: Fixed a bug in the GStreamer's Wrapper installer that doesn't clear the plugin's cache in AME. (Deprecated migrated to SCPT_3.8)
 # SCPT_3.8: Fixed a bug in declaration of the variables for the licenses fix for AME. (Deprecated migrated to SCPT_3.9)
-# SCPT_3.9: Added the possibility to transcode AAC codec in Video Station and Media Server. Added new libraries for GStreamer 1.6.3. for this AAC decoding. Added the word BETA for the cracker of the AME's license.
+# SCPT_3.9: Added the possibility to transcode AAC codec in Video Station and Media Server. Added new libraries for GStreamer 1.6.3. for this AAC decoding. Added the word BETA for the cracker of the AME's license. (Deprecated migrated to SCPT_3.9.1)
+# SCPT_3.9.1: Added in the license's crack the patch for the DSM 7.2. (Deprecated migrated to SCPT_3.9.2)
+# SCPT_3.9.2: Homogenize the closing of processes in the Simplest Wrapper with the Advanced Wrapper, to correct a bug carried over from Alex's code. (Deprecated migrated to SCPT_3.9.3)
+# SCPT_3.9.3: Fixed the possibility to enter to the Start menu if you haven't got the AME License and you want to install the patch for the license in a XPEnology system. (Deprecated migrated to SCPT_3.9.4)
+# SCPT_3.9.4: Changed the installer version for the new Advanced Wrapper version. (Deprecated migrated to SCPT_3.9.5)
+# SCPT_3.9.5: Added a new hash for the AME License Patch. (Deprecated migrated to SCPT_3.9.6)
+# SCPT_3.9.6: Added into the Uninstall Old function the possibility to delete Orphan files generated from others wrappers, like Alex's one. (Deprecated migrated to SCPT_3.9.7)
+# SCPT_3.9.7: Added the possibility of changing the number of audio channels in the OffLine transcoding of the Video Station in the Configuration menu. Fixed a Typo in AME License, in two variables. (Deprecated migrated to SCPT_3.9.8)
+# SCPT_3.9.8: Fixed a bug that did not make thumbnails of .mp4 videos in Video Station. I did changes in the Advanced Wrapper.**
 
 ##############################################################
 
@@ -574,6 +582,78 @@ info "${YELLOW}Changing to use only an Unique Audio's Stream in DLNA MediaServer
 fi  
 }
 
+function config_I() {
+text_configI_1=("Changing the number of audio channels in the VIDEO-STATION OffLine transcoding. (2.0)" "Cambiando el número de canales de audio en la transcodificación OffLine del VIDEO-STATION. (2.0)" "Alterando o número de canais de áudio na transcodificação VIDEO-STATION OffLine. (2.0)" "Modification du nombre de canaux audio dans le transcodage VIDEO-STATION OffLine. (2.0)" "Ändern der Anzahl der Audiokanäle bei der VIDEO-STATION OffLine-Transkodierung. (2.0)" "Modifica del numero di canali audio nella transcodifica OffLine di VIDEO-STATION. (2.0)")
+text_configI_2=("Correctly changed the number of audio channels in the OffLine transcoding of the VIDEO-STATION. (2.0)" "Cambiado correctamente el número de canales de audio en la transcodificación OffLine del VIDEO-STATION. (2.0)" "Alterado corretamente o número de canais de áudio na transcodificação OffLine da VIDEO-STATION. (2.0)" "Correction correcte du nombre de canaux audio dans le transcodage hors ligne de la VIDEO-STATION. (2.0)" "Die Anzahl der Audiokanäle bei der Offline-Transkodierung der VIDEO-STATION wurde korrekt geändert. (2.0)" "Modificato correttamente il numero di canali audio nella transcodifica OffLine della VIDEO-STATION. (2.0)")
+text_configI_3=("==================== Configuration of the Advanced Wrapper: COMPLETE ====================" "==================== Configuración del Wrapper Avanzado: COMPLETADA ====================" "==================== Configuração avançada do wrapper: CONCLUÍDO ====================" "==================== Configuration avancée de l'encapsuleur : TERMINÉE ====================" "==================== Erweiterte Wrapper-Konfiguration: ABGESCHLOSSEN ====================" "==================== Configurazione avanzata del wrapper: COMPLETATA ====================")
+text_configI_4=("Actually you HAVEN'T INSTALLED THE ADVANCED WRAPPER so this codec configurator CAN'T change anything." "Actualmente NO TIENES EL WRAPPER AVANZADO INSTALADO y este Configurador de codec NO PUEDE cambiar nada." "Atualmente, você NÃO TEM O WRAPPER AVANÇADO INSTALADO e este Configurador de Codec NÃO PODE alterar nada." "Actuellement, vous N'AVEZ PAS INSTALLÉ LE WRAPPER AVANCÉ et ce configurateur de codec NE PEUT PAS changer quoi que ce soit." "Sie haben derzeit den ADVANCED WRAPPER NICHT INSTALLIERT und dieser Codec-Konfigurator kann NICHTS ändern." "Al momento NON HAI INSTALLATO IL WRAPPER AVANZATO e questo configuratore di codec NON PUÒ modificare nulla.")
+text_configI_5=("Please, Install the Advanced Wrapper first and then you will can change the config for audio's streams." "Por favor, Instala el Wrapper Avanzado y después podrás cambiar la configuración de los flujos de audio." "Por favor, instale o Advanced Wrapper e então você pode alterar as configurações dos fluxos de áudio." "Veuillez installer Advanced Wrapper et vous pourrez ensuite modifier les paramètres des flux audio." "Bitte installieren Sie den Advanced Wrapper und dann können Sie die Einstellungen der Audiostreams ändern." "Si prega di installare il wrapper avanzato e quindi è possibile modificare le impostazioni dei flussi audio.")
+
+if [[ "$check_amrif" == "$firma2" ]]; then 
+info "${YELLOW}${text_configI_1[$LANG]}"
+info "${YELLOW}Changing the number of audio channels in the VIDEO-STATION OffLine transcoding. (2.0)" >> $logfile
+    sed -i 's/args2trans+=("-c:a" "libfdk_aac")/args2trans+=("-c:a" "$1")/gi' ${cp_bin_path}/ffmpeg41 2>> $logfile
+    sed -i 's/args2trans+=("-b:a" "512k")/args2trans+=("-b:a" "256k")/gi' ${cp_bin_path}/ffmpeg41 2>> $logfile
+    sed -i 's/args2trans+=("-ac" "6")/args2trans+=("-ac" "$1")/gi' ${cp_bin_path}/ffmpeg41 2>> $logfile
+    info "${GREEN}${text_configI_2[$LANG]}"
+    echo ""
+    echo -e "${BLUE}${text_configI_3[$LANG]}"
+    info "${BLUE}==================== Configuration of the Advanced Wrapper: COMPLETE ====================" >> $logfile
+    exit 0  
+fi
+
+if [[ "$check_amrif" == "$firma" ]]; then  
+info "${YELLOW}${text_configI_1[$LANG]}"
+info "${YELLOW}Changing the number of audio channels in the VIDEO-STATION OffLine transcoding. (2.0)" >> $logfile
+    sed -i 's/args2trans+=("-c:a" "libfdk_aac")/args2trans+=("-c:a" "$1")/gi' ${cp_bin_path}/ffmpeg41 2>> $logfile
+    sed -i 's/args2trans+=("-b:a" "512k")/args2trans+=("-b:a" "256k")/gi' ${cp_bin_path}/ffmpeg41 2>> $logfile
+    sed -i 's/args2trans+=("-ac" "6")/args2trans+=("-ac" "$1")/gi' ${cp_bin_path}/ffmpeg41 2>> $logfile
+    info "${GREEN}${text_configI_2[$LANG]}"
+    echo ""
+ else
+   info "${RED}${text_configI_4[$LANG]}"
+   info "${RED}Actually you HAVEN'T INSTALLED THE ADVANCED WRAPPER so this codec configurator CAN'T change anything." >> $logfile
+   info "${BLUE}${text_configI_5[$LANG]}"
+   start
+fi  
+}
+
+function config_J() {
+text_configJ_1=("Changing the number of audio channels in the VIDEO-STATION OffLine transcoding. (5.1)" "Cambiando el número de canales de audio en la transcodificación OffLine del VIDEO-STATION. (5.1)" "Alterando o número de canais de áudio na transcodificação VIDEO-STATION OffLine. (5.1)" "Modification du nombre de canaux audio dans le transcodage VIDEO-STATION OffLine. (5.1)" "Ändern der Anzahl der Audiokanäle bei der VIDEO-STATION OffLine-Transkodierung. (5.1)" "Modifica del numero di canali audio nella transcodifica OffLine di VIDEO-STATION. (5.1)")
+text_configJ_2=("Correctly changed the number of audio channels in the OffLine transcoding of the VIDEO-STATION. (5.1)" "Cambiado correctamente el número de canales de audio en la transcodificación OffLine del VIDEO-STATION. (5.1)" "Alterado corretamente o número de canais de áudio na transcodificação OffLine da VIDEO-STATION. (5.1)" "Correction correcte du nombre de canaux audio dans le transcodage hors ligne de la VIDEO-STATION. (5.1)" "Die Anzahl der Audiokanäle bei der Offline-Transkodierung der VIDEO-STATION wurde korrekt geändert. (5.1)" "Modificato correttamente il numero di canali audio nella transcodifica OffLine della VIDEO-STATION. (5.1)")
+text_configJ_3=("==================== Configuration of the Advanced Wrapper: COMPLETE ====================" "==================== Configuración del Wrapper Avanzado: COMPLETADA ====================" "==================== Configuração avançada do wrapper: CONCLUÍDO ====================" "==================== Configuration avancée de l'encapsuleur : TERMINÉE ====================" "==================== Erweiterte Wrapper-Konfiguration: ABGESCHLOSSEN ====================" "==================== Configurazione avanzata del wrapper: COMPLETATA ====================")
+text_configJ_4=("Actually you HAVEN'T INSTALLED THE ADVANCED WRAPPER so this codec configurator CAN'T change anything." "Actualmente NO TIENES EL WRAPPER AVANZADO INSTALADO y este Configurador de codec NO PUEDE cambiar nada." "Atualmente, você NÃO TEM O WRAPPER AVANÇADO INSTALADO e este Configurador de Codec NÃO PODE alterar nada." "Actuellement, vous N'AVEZ PAS INSTALLÉ LE WRAPPER AVANCÉ et ce configurateur de codec NE PEUT PAS changer quoi que ce soit." "Sie haben derzeit den ADVANCED WRAPPER NICHT INSTALLIERT und dieser Codec-Konfigurator kann NICHTS ändern." "Al momento NON HAI INSTALLATO IL WRAPPER AVANZATO e questo configuratore di codec NON PUÒ modificare nulla.")
+text_configJ_5=("Please, Install the Advanced Wrapper first and then you will can change the config for audio's streams." "Por favor, Instala el Wrapper Avanzado y después podrás cambiar la configuración de los flujos de audio." "Por favor, instale o Advanced Wrapper e então você pode alterar as configurações dos fluxos de áudio." "Veuillez installer Advanced Wrapper et vous pourrez ensuite modifier les paramètres des flux audio." "Bitte installieren Sie den Advanced Wrapper und dann können Sie die Einstellungen der Audiostreams ändern." "Si prega di installare il wrapper avanzato e quindi è possibile modificare le impostazioni dei flussi audio.")
+
+if [[ "$check_amrif" == "$firma2" ]]; then 
+info "${YELLOW}${text_configJ_1[$LANG]}"
+info "${YELLOW}Changing the number of audio channels in the VIDEO-STATION OffLine transcoding. (5.1)" >> $logfile
+    sed -i 's/args2trans+=("-c:a" "$1")/args2trans+=("-c:a" "libfdk_aac")/gi' ${cp_bin_path}/ffmpeg41 2>> $logfile
+    sed -i 's/args2trans+=("-b:a" "256k")/args2trans+=("-b:a" "512k")/gi' ${cp_bin_path}/ffmpeg41 2>> $logfile
+    sed -i 's/args2trans+=("-ac" "$1")/args2trans+=("-ac" "6")/gi' ${cp_bin_path}/ffmpeg41 2>> $logfile
+    info "${GREEN}${text_configJ_2[$LANG]}"
+    echo ""
+    echo -e "${BLUE}${text_configJ_3[$LANG]}"
+    info "${BLUE}==================== Configuration of the Advanced Wrapper: COMPLETE ====================" >> $logfile
+    exit 0  
+fi
+
+if [[ "$check_amrif" == "$firma" ]]; then  
+info "${YELLOW}${text_configJ_1[$LANG]}"
+info "${YELLOW}Changing the number of audio channels in the VIDEO-STATION OffLine transcoding. (5.1)" >> $logfile
+    sed -i 's/args2trans+=("-c:a" "$1")/args2trans+=("-c:a" "libfdk_aac")/gi' ${cp_bin_path}/ffmpeg41 2>> $logfile
+    sed -i 's/args2trans+=("-b:a" "256k")/args2trans+=("-b:a" "512k")/gi' ${cp_bin_path}/ffmpeg41 2>> $logfile
+    sed -i 's/args2trans+=("-ac" "$1")/args2trans+=("-ac" "6")/gi' ${cp_bin_path}/ffmpeg41 2>> $logfile
+    info "${GREEN}${text_configJ_2[$LANG]}"
+    echo ""
+ else
+   info "${RED}${text_configJ_4[$LANG]}"
+   info "${RED}Actually you HAVEN'T INSTALLED THE ADVANCED WRAPPER so this codec configurator CAN'T change anything." >> $logfile
+   info "${BLUE}${text_configJ_5[$LANG]}"
+   start
+fi  
+}
+
 function start() {
 text_start_1=("THIS IS THE MAIN MENU, PLEASE CHOOSE YOUR SELECTION:" "ESTE ES EL MENÚ PRINCIPAL, POR FAVOR ESCOGE TU SELECCIÓN:" "ESTE É O MENU PRINCIPAL, POR FAVOR, ESCOLHA SUA SELEÇÃO:" "CECI EST LE MENU PRINCIPAL, VEUILLEZ CHOISIR VOTRE SÉLECTION:" "DAS IST DAS HAUPTMENÜ, BITTE WÄHLEN SIE IHRE AUSWAHL:" "QUESTO È IL MENU PRINCIPALE, SCEGLI LA TUA SELEZIONE:")
 text_start_2=("Install the Advanced Wrapper for VideoStation and DLNA MediaServer (If exist). (With 5.1 and 2.0 support, configurable)" "Instalar el Advanced Wrapper para VideoStation y DLNA MediaServer (si existe). (Con soporte 5.1 y 2.0, configurable)" "Instale o Advanced Wrapper for VideoStation e DLNA MediaServer (se houver). (Com suporte 5.1 e 2.0, configurável)" "Installez le Advanced Wrapper pour VideoStation et DLNA MediaServer (le cas échéant). (Avec prise en charge 5.1 et 2.0, configurable)" "Installieren Sie den Advanced Wrapper for VideoStation und DLNA MediaServer (falls vorhanden). (Mit 5.1 und 2.0 Unterstützung, konfigurierbar)" "Installare il Advanced Wrapper per VideoStation e DLNA MediaServer (se presente). (Con supporto 5.1 e 2.0, configurabile)")
@@ -698,7 +778,7 @@ function crackmenu() {
  text_crackmenu_6=("INSTALL the AME's License Crack" "INSTALAR el crack de licencia de AME" "INSTALE o crack da licença AME" "INSTALLER le crack de la licence AME" "INSTALLIEREN Sie den AME-Lizenz-Crack" "INSTALLA il crack della licenza AME")
  text_crackmenu_7=("UNINSTALL the AME's License Crack" "DESINSTALAR el crack de licencia de AME" "DESINSTALAR crack de licença AME" "DÉSINSTALLER le crack de la licence AME" "AME-Lizenz-Crack DEINSTALLIEREN" "DISINSTALLA il crack della licenza AME")	
  text_crackmenu_8=("This patcher enables Advanced Media Extensions 3.0 for you, without having to login account." "Este parche habilita Advanced Media Extensions 3.0 para usted, sin tener que iniciar sesión en la cuenta." "Este patch habilita o Advanced Media Extensions 3.0 para você, sem ter que entrar em sua conta." "Ce correctif active Advanced Media Extensions 3.0 pour vous, sans avoir à vous connecter à votre compte." "Dieser Patch aktiviert Advanced Media Extensions 3.0 für Sie, ohne dass Sie sich bei Ihrem Konto anmelden müssen." "Questa patch abilita Advanced Media Extensions 3.0 per te, senza dover accedere al tuo account.")	
- text_crackmenu_9=("This enables the AAC and HEVC codecs and its license in the AME package, until DSM 7.1.1." "Esto habilita los códecs AAC y HEVC y su licencia en el paquete AME, hasta DSM 7.1.1." "Isso habilita os codecs AAC e HEVC e suas licenças no pacote AME, até DSM 7.1.1." "Cela active les codecs AAC et HEVC et leur licence dans le package AME, jusqu'à DSM 7.1.1." "Dadurch werden die AAC- und HEVC-Codecs und deren Lizenz im AME-Paket bis DSM 7.1.1 aktiviert." "Ciò abilita i codec AAC e HEVC e la relativa licenza nel pacchetto AME, fino a DSM 7.1.1.")	
+ text_crackmenu_9=("This enables the AAC and HEVC codecs and its license in the AME package, until DSM 7.2." "Esto habilita los códecs AAC y HEVC y su licencia en el paquete AME, hasta DSM 7.2." "Isso habilita os codecs AAC e HEVC e suas licenças no pacote AME, até DSM 7.2." "Cela active les codecs AAC et HEVC et leur licence dans le package AME, jusqu'à DSM 7.2." "Dadurch werden die AAC- und HEVC-Codecs und deren Lizenz im AME-Paket bis DSM 7.2 aktiviert." "Ciò abilita i codec AAC e HEVC e la relativa licenza nel pacchetto AME, fino a DSM 7.2.")	
  text_crackmenu_10=("When you install this License crack, the Wrapper will be deleted and you must to re-install it again." "Cuando instale este crack de licencia, el Wrapper se eliminará y deberá volver a instalarlo." "Ao instalar este crack de licença, o contêiner será removido e você precisará reinstalá-lo." "Lorsque vous installez ce crack de licence, le conteneur sera supprimé et vous devrez le réinstaller." "Wenn Sie diesen Lizenz-Crack installieren, wird der Container entfernt und Sie müssen ihn neu installieren." "Quando installi questo crack della licenza, il contenitore verrà rimosso e dovrai reinstallarlo.")
  text_crackmenu_11=("Note that in order to use this, you will have to use a valid SN (but doesn't have to login synology account with that SN)." "Tenga en cuenta que para usar esto, deberá usar un SN válido (pero no tiene que iniciar sesión en una cuenta de Synology con ese SN)." "Observe que, para usá-lo, você precisará usar um SN válido (mas não precisa entrar em uma conta Synology com esse SN)." "Veuillez noter que pour l'utiliser, vous devrez utiliser un SN valide (mais vous n'avez pas besoin de vous connecter à un compte Synology avec ce SN)." "Bitte beachten Sie, dass Sie zur Nutzung eine gültige SN verwenden müssen (Sie müssen sich jedoch nicht mit dieser SN bei einem Synology-Konto anmelden)." "Si noti che per utilizzare questo, sarà necessario utilizzare un SN valido (ma non è necessario accedere a un account Synology con quel SN).")	
  text_crackmenu_12=("DISCLAIMER:" "DESCARGO DE RESPONSABILIDAD:" "ISENÇÃO DE RESPONSABILIDADE:" "CLAUSE DE NON-RESPONSABILITÉ:" "HAFTUNGSAUSSCHLUSS:" "DISCLAIMER:")	
@@ -734,8 +814,8 @@ function crackmenu() {
         esac
 	done
 }
-patch_ame_license() {
-
+function patch_ame_license() {
+# Adaptation, conversion and improvements made by me of Wangsiji's code
 touch "$logfile"
 
 text_patchame_1=("The backup file $so_backup already exists. A new backup will not be created." "El archivo de respaldo $so_backup ya existe. No se creará una nueva copia de seguridad." "O arquivo de backup $so_backup já existe. Um novo backup não será criado." "Le fichier de sauvegarde $so_backup existe déjà. Une nouvelle sauvegarde ne sera pas créée." "Die Sicherungsdatei $so_backup existiert bereits. Es wird kein neues Backup erstellt." "Il file di backup $so_backup esiste già. Non verrà creato un nuovo backup.")
@@ -794,14 +874,25 @@ fi
    info "${YELLOW}${text_patchame_7[$LANG]}"
    info "${YELLOW}Applying the patch." >> $logfile
 
-# Comprobar que el fichero a parchear sea exactamente la misma versión que se estudió.
-expected_checksum='fcc1084f4eadcf5855e6e8494fb79e23'
+# Comprobar que el fichero a parchear sea exactamente la misma versión que se estudió. 
+hash_to_check="$(md5sum -b "$so" | awk '{print $1}')"
 
-if [ "$(md5sum -b "$so" | awk '{print $1}')" != "$expected_checksum" ]; then
+if [ "$hash_to_check" = "fcc1084f4eadcf5855e6e8494fb79e23" ]; then
+    hex_values=('1F28' '48F5' '4921' '4953' '4975' '9AC8')
+  content='[{"appType": 14, "appName": "ame", "follow": ["device"], "server_time": 1666000000, "registered_at": 1651000000, "expireTime": 0, "status": "valid", "firstActTime": 1651000001, "extension_gid": null, "licenseCode": "0", "duration": 1576800000, "attribute": {"codec": "hevc", "type": "free"}, "licenseContent": 1}, {"appType": 14, "appName": "ame", "follow": ["device"], "server_time": 1666000000, "registered_at": 1651000000, "expireTime": 0, "status": "valid", "firstActTime": 1651000001, "extension_gid": null, "licenseCode": "0", "duration": 1576800000, "attribute": {"codec": "aac", "type": "free"}, "licenseContent": 1}]'
+elif [ "$hash_to_check" = "923fd0d58e79b7dc0f6c377547545930" ]; then
+    hex_values=('1F28' '48F5' '4921' '4953' '4975' '9AC8')
+  content='[{"appType": 14, "appName": "ame", "follow": ["device"], "server_time": 1666000000, "registered_at": 1651000000, "expireTime": 0, "status": "valid", "firstActTime": 1651000001, "extension_gid": null, "licenseCode": "0", "duration": 1576800000, "attribute": {"codec": "hevc", "type": "free"}, "licenseContent": 1}, {"appType": 14, "appName": "ame", "follow": ["device"], "server_time": 1666000000, "registered_at": 1651000000, "expireTime": 0, "status": "valid", "firstActTime": 1651000001, "extension_gid": null, "licenseCode": "0", "duration": 1576800000, "attribute": {"codec": "aac", "type": "free"}, "licenseContent": 1}]'
+elif [ "$hash_to_check" = "09e3adeafe85b353c9427d93ef0185e9" ]; then
+    hex_values=('3718' '60A5' '60D1' '6111' '6137' 'B5F0')
+  content='[{"attribute": {"codec": "hevc", "type": "free"}, "status": "valid", "extension_gid": null, "expireTime": 0, "appName": "ame", "follow": ["device"], "duration": 1576800000, "appType": 14, "licenseContent": 1, "registered_at": 1649315995, "server_time": 1685421618, "firstActTime": 1649315995, "licenseCode": "0"}, {"attribute": {"codec": "aac", "type": "free"}, "status": "valid", "extension_gid": null, "expireTime": 0, "appName": "ame", "follow": ["device"], "duration": 1576800000, "appType": 14, "licenseContent": 1, "registered_at": 1649315995, "server_time": 1685421618, "firstActTime": 1649315995, "licenseCode": "0"}]'
+  
+else
     echo "MD5 mismatch"
     unpatch_ame_license
     exit 1
 fi
+
 
 for ((i = 0; i < ${#hex_values[@]}; i++)); do
     offset=$(( 0x${hex_values[i]} + 0x8000 ))
@@ -817,7 +908,7 @@ done
 
 
     mkdir -p "$(dirname "$lic")"
-    echo '[{"appType": 14, "appName": "ame", "follow": ["device"], "server_time": 1666000000, "registered_at": 1651000000, "expireTime": 0, "status": "valid", "firstActTime": 1651000001, "extension_gid": null, "licenseCode": "0", "duration": 1576800000, "attribute": {"codec": "hevc", "type": "free"}, "licenseContent": 1}, {"appType": 14, "appName": "ame", "follow": ["device"], "server_time": 1666000000, "registered_at": 1651000000, "expireTime": 0, "status": "valid", "firstActTime": 1651000001, "extension_gid": null, "licenseCode": "0", "duration": 1576800000, "attribute": {"codec": "aac", "type": "free"}, "licenseContent": 1}]' > "$lic"
+    echo "$content" > "$lic"
 
     info "${YELLOW}${text_patchame_8[$LANG]}"
     info "${YELLOW}Checking whether patch is successful..." >> $logfile
@@ -837,7 +928,7 @@ done
         exit 1
    	fi
 }
-unpatch_ame_license() {
+function unpatch_ame_license() {
 
 touch "$logfile"
 
@@ -909,13 +1000,24 @@ if [[ $cpu_model == *"ARMv8"* ]]; then
 fi
 
 }
+function cleanorphan() {
+  text_cleanorphan=("Cleaning orphan files..." "Limpiando archivos huérfanos..." "Limpando arquivos órfãos..." "Nettoyage des fichiers orphelins..." "Bereinigung von verwaisten Dateien..." "Pulizia dei file orfani...")
+# Delete Orphan files from other wrappers, like the Alex's one. 
+  rm -f /tmp/tmp.wget
+  rm -f /tmp/ffmpeg.stderr
+  rm -f /tmp/ffmpeg.stderr.prev
+  rm -f /tmp/gstreamer.log
+  rm -f /tmp/gst.stderr
+  rm -f /tmp/gst.stderr.prev
+  
+  info "${YELLOW}${text_cleanorphan[$LANG]}"  
+  info "${YELLOW}Cleaning orphan files..." >> $logfile
+}
 
 function reloadstart() {
 clear
 titulo
 welcome
-check_dependencias
-check_licence_AME
 check_versions
 check_firmas
 other_checks
@@ -1121,6 +1223,9 @@ info "${GREEN}Installed correctly the GStreamer's Wrapper." >> $logfile
 ################################
 
 function install() {
+check_dependencias
+check_licence_AME
+
 if [[ "$mode" == "Simplest" ]]; then
 text_install_1=("==================== Installation of the Simplest Wrapper: START ====================" "==================== Instalación del Wrapper más Simple: INICIO ====================" "==================== Instalando o wrapper mais simples: START =====================" "==================== Installation de l'encapsuleur le plus simple : DÉMARRER ====================" "==================== Installation des einfachsten Wrappers: START ====================" "===================== Installazione del wrapper più semplice: START ====================")
 info "${BLUE}==================== Installation of the Simplest Wrapper: START ====================" >> $logfile
@@ -1151,7 +1256,6 @@ fi
   text_install_17=("Installed correctly the wrapper41 in $cp_bin_path" "Instalado correctamente el wrapper41 en $cp_bin_path" "Wrapper41 instalado com sucesso em $cp_bin_path" "Wrapper41 installé avec succès dans $cp_bin_path" "Wrapper41 erfolgreich in $cp_bin_path installiert" "Wrapper41 installato correttamente in $cp_bin_path")
   text_install_18=("Backup the original libsynovte.so in VideoStation as libsynovte.so.orig." "Copia de seguridad del fichero libsynovte.so como libsynovte.so.orig en VideoStation." "Faça backup do arquivo libsynovte.so como libsynovte.so.orig no VideoStation." "Sauvegardez le fichier libsynovte.so sous libsynovte.so.orig sur VideoStation." "Sichern Sie die Datei libsynovte.so als libsynovte.so.orig auf VideoStation." "Eseguire il backup del file libsynovte.so come libsynovte.so.orig su VideoStation.")
   text_install_19=("Fixing permissions of $vs_libsynovte_file.orig" "Arreglando los permisos de $vs_libsynovte_file.orig" "Corrigindo as permissões de $vs_libsynovte_file.orig" "Correction des autorisations de $vs_libsynovte_file.orig" "Korrigieren der Berechtigungen von $vs_libsynovte_file.orig" "Correzione dei permessi di $vs_libsynovte_file.orig")
-  text_install_20=("Patching $vs_libsynovte_file for compatibility with DTS, EAC3 and TrueHD" "Parcheando $vs_libsynovte_file para compatibilidad con DTS, EAC3 y TrueHD" "Corrigindo $vs_libsynovte_file para compatibilidade com DTS, EAC3 e TrueHD" "Correction de $vs_libsynovte_file pour la compatibilité DTS, EAC3 et TrueHD" "Patchen von $vs_libsynovte_file für DTS-, EAC3- und TrueHD-Kompatibilität" "Patching $vs_libsynovte_file per la compatibilità DTS, EAC3 e TrueHD")
   text_install_21=("Modified correctly the file $vs_libsynovte_file" "Modificado correctamente el fichero $vs_libsynovte_file" "Modificou corretamente o arquivo $vs_libsynovte_file" "Correctement modifié le fichier $vs_libsynovte_file" "Die Datei $vs_libsynovte_file wurde korrekt geändert" "Modificato correttamente il file $vs_libsynovte_file")
   text_install_23=("Adding of the KEY of this Wrapper in /tmp." "Añadiendo la CLAVE de este Wrapper en /tmp." "Adicionando a KEY deste Wrapper no /tmp." "Ajout de la CLÉ de ce wrapper dans /tmp." "Hinzufügen des SCHLÜSSEL dieses Wrappers in /tmp." "Aggiunta della CHIAVE di questo wrapper in /tmp.")
   text_install_24=("Installed correctly the KEY in /tmp" "Instalada correctamente la CLAVE en /tmp" "KEY instalado com sucesso em /tmp" "CLÉ installé avec succès dans /tmp" "SCHLÜSSEL erfolgreich in /tmp installiert" "CHIAVE installata correttamente in /tmp")
@@ -1168,7 +1272,7 @@ if [[ -f "/tmp/wrapper.KEY" ]] && [[ $setup == autoinstall ]]; then
 	break
 fi
 
-if [[ -f "/tmp/wrapper.KEY" ]]; then
+if [[ -f "/tmp/wrapper.KEY" || -f "$vs_libsynovte_file.orig" ]]; then
 
         info "${RED}${text_install_6[$LANG]}"
         info "${RED}Actually you have a OLD or OTHER patch applied in your system, please UNINSTALL OLDER Wrapper first." >> $logfile
@@ -1223,9 +1327,18 @@ else
 	  info "${YELLOW}${text_install_19[$LANG]}"
 	  info "${YELLOW}Fixing permissions of $vs_libsynovte_file.orig" >> $logfile
 	chown VideoStation:VideoStation $vs_libsynovte_file.orig 2>> $logfile
-	  info "${YELLOW}${text_install_20[$LANG]}"
-	  info "${YELLOW}Patching $vs_libsynovte_file for compatibility with DTS, EAC3 and TrueHD" >> $logfile
-	sed -i -e 's/eac3/3cae/' -e 's/dts/std/' -e 's/truehd/dheurt/' -e 's/aac/caa/' $vs_libsynovte_file 2>> $logfile
+	  
+	if grep -q "aac_dec" /usr/syno/etc/codec/activation.conf; then
+	text_install_20a=("Patching $vs_libsynovte_file for compatibility with DTS, EAC3 and TrueHD" "Parcheando $vs_libsynovte_file para compatibilidad con DTS, EAC3 y TrueHD" "Corrigindo $vs_libsynovte_file para compatibilidade com DTS, EAC3 e TrueHD" "Correction de $vs_libsynovte_file pour la compatibilité DTS, EAC3 et TrueHD" "Patchen von $vs_libsynovte_file für DTS-, EAC3- und TrueHD-Kompatibilität" "Patching $vs_libsynovte_file per la compatibilità DTS, EAC3 e TrueHD")
+		info "${YELLOW}${text_install_20a[$LANG]}"
+	  	info "${YELLOW}Patching $vs_libsynovte_file for compatibility with DTS, EAC3 and TrueHD" >> $logfile
+		sed -i -e 's/eac3/3cae/' -e 's/dts/std/' -e 's/truehd/dheurt/' $vs_libsynovte_file 2>> $logfile
+	else
+	text_install_20b=("Patching $vs_libsynovte_file for compatibility with AAC, DTS, EAC3 and TrueHD" "Parcheando $vs_libsynovte_file para compatibilidad con AAC, DTS, EAC3 y TrueHD" "Corrigindo $vs_libsynovte_file para compatibilidade com AAC, DTS, EAC3 e TrueHD" "Correction de $vs_libsynovte_file pour la compatibilité AAC, DTS, EAC3 et TrueHD" "Patchen von $vs_libsynovte_file für AAC-, DTS-, EAC3- und TrueHD-Kompatibilität" "Patching $vs_libsynovte_file per la compatibilità AAC, DTS, EAC3 e TrueHD")
+		info "${YELLOW}${text_install_20b[$LANG]}"
+	  	info "${YELLOW}Patching $vs_libsynovte_file for compatibility with AAC, DTS, EAC3 and TrueHD" >> $logfile
+		sed -i -e 's/eac3/3cae/' -e 's/dts/std/' -e 's/truehd/dheurt/' -e 's/aac/caa/' $vs_libsynovte_file 2>> $logfile
+	fi
 	info "${GREEN}${text_install_21[$LANG]}"
 	
 	if [[ "$mode" == "Simplest" ]]; then
@@ -1250,7 +1363,6 @@ text_install_23=("Adding of the KEY of this Wrapper in DLNA MediaServer." "Añad
 text_install_24=("Installed correctly the KEY in $ms_path/bin" "Instalada correctamente la CLAVE en $ms_path/bin" "KEY instalado com sucesso em $ms_path/bin" "CLÉ installé avec succès dans $ms_path/bin" "SCHLÜSSEL erfolgreich in $ms_path/bin installiert" "CHIAVE installata correttamente in $ms_path/bin")
 text_install_25=("Backup the original libsynovte.so in MediaServer as libsynovte.so.orig." "Copia de seguridad del fichero libsynovte.so como libsynovte.so.orig en MediaServer." "Faça backup do arquivo libsynovte.so como libsynovte.so.orig no MediaServer." "Sauvegardez le fichier libsynovte.so sous libsynovte.so.orig sur MediaServer." "Sichern Sie die Datei libsynovte.so als libsynovte.so.orig auf MediaServer." "Eseguire il backup del file libsynovte.so come libsynovte.so.orig su MediaServer.")
 text_install_26=("Fixing permissions of $ms_libsynovte_file.orig" "Arreglando los permisos de $ms_libsynovte_file.orig" "Corrigindo as permissões de $ms_libsynovte_file.orig" "Correction des autorisations de $ms_libsynovte_file.orig" "Korrigieren der Berechtigungen von $ms_libsynovte_file.orig" "Correzione dei permessi di $ms_libsynovte_file.orig")
-text_install_27=("Patching $ms_libsynovte_file for compatibility with DTS, EAC3 and TrueHD" "Parcheando $ms_libsynovte_file para compatibilidad con DTS, EAC3 y TrueHD" "Corrigindo $ms_libsynovte_file para compatibilidade com DTS, EAC3 e TrueHD" "Correction de $ms_libsynovte_file pour la compatibilité DTS, EAC3 et TrueHD" "Patchen von $ms_libsynovte_file für DTS-, EAC3- und TrueHD-Kompatibilität" "Patching $ms_libsynovte_file per la compatibilità DTS, EAC3 e TrueHD")
 text_install_28=("Modified correctly the file $ms_libsynovte_file" "Modificado correctamente el fichero $ms_libsynovte_file" "Modificou corretamente o arquivo $ms_libsynovte_file" "Correctement modifié le fichier $ms_libsynovte_file" "Die Datei $ms_libsynovte_file wurde korrekt geändert" "Modificato correttamente il file $ms_libsynovte_file")
     
 
@@ -1267,9 +1379,18 @@ text_install_28=("Modified correctly the file $ms_libsynovte_file" "Modificado c
 	  info "${YELLOW}Fixing permissions of $ms_libsynovte_file.orig" >> $logfile
 		chown MediaServer:MediaServer $ms_libsynovte_file.orig 2>> $logfile
 		chmod 644 $ms_libsynovte_file.orig 2>> $logfile
-	  info "${YELLOW}${text_install_27[$LANG]}"
-	  info "${YELLOW}Patching $ms_libsynovte_file for compatibility with DTS, EAC3 and TrueHD" >> $logfile
-		sed -i -e 's/eac3/3cae/' -e 's/dts/std/' -e 's/truehd/dheurt/' -e 's/aac/caa/' $ms_libsynovte_file 2>> $logfile
+	  
+		if grep -q "aac_dec" /usr/syno/etc/codec/activation.conf; then
+		text_install_27a=("Patching $ms_libsynovte_file for compatibility with DTS, EAC3 and TrueHD" "Parcheando $ms_libsynovte_file para compatibilidad con DTS, EAC3 y TrueHD" "Corrigindo $ms_libsynovte_file para compatibilidade com DTS, EAC3 e TrueHD" "Correction de $ms_libsynovte_file pour la compatibilité DTS, EAC3 et TrueHD" "Patchen von $ms_libsynovte_file für DTS-, EAC3- und TrueHD-Kompatibilität" "Patching $ms_libsynovte_file per la compatibilità DTS, EAC3 e TrueHD")
+			info "${YELLOW}${text_install_27a[$LANG]}"
+	  		info "${YELLOW}Patching $ms_libsynovte_file for compatibility with DTS, EAC3 and TrueHD" >> $logfile
+			sed -i -e 's/eac3/3cae/' -e 's/dts/std/' -e 's/truehd/dheurt/' $ms_libsynovte_file 2>> $logfile
+		else
+		text_install_27b=("Patching $ms_libsynovte_file for compatibility with AAC, DTS, EAC3 and TrueHD" "Parcheando $ms_libsynovte_file para compatibilidad con AAC, DTS, EAC3 y TrueHD" "Corrigindo $ms_libsynovte_file para compatibilidade com AAC, DTS, EAC3 e TrueHD" "Correction de $ms_libsynovte_file pour la compatibilité AAC, DTS, EAC3 et TrueHD" "Patchen von $ms_libsynovte_file für AAC-, DTS-, EAC3- und TrueHD-Kompatibilität" "Patching $ms_libsynovte_file per la compatibilità AAC, DTS, EAC3 e TrueHD")
+			info "${YELLOW}${text_install_27b[$LANG]}"
+	  		info "${YELLOW}Patching $ms_libsynovte_file for compatibility with AAC, DTS, EAC3 and TrueHD" >> $logfile
+			sed -i -e 's/eac3/3cae/' -e 's/dts/std/' -e 's/truehd/dheurt/' -e 's/aac/caa/' $ms_libsynovte_file 2>> $logfile
+		fi
 		info "${GREEN}${text_install_28[$LANG]}"
 		
 		if [[ "$mode" == "Simplest" ]]; then
@@ -1402,6 +1523,8 @@ if [[ "$unmode" == "Old" ]]; then
    	rm -r "$vs_path/lib/patch" 2>> $logfile
 	mv -T -f $vs_path/etc/gstomx.conf.orig $vs_path/etc/gstomx.conf 2>> $logfile
    fi
+
+  cleanorphan
      
   info "${GREEN}${text_uninstall_10[$LANG]}"
   echo ""
@@ -1504,12 +1627,14 @@ text_configura_7=(" ( E ) FIRST STREAM= MP3 2.0 256kbps, SECOND STREAM= AAC 5.1 
 text_configura_8=(" ( F ) Change the 5.1 audio's codec from AC3 640kbps to AAC 512kbps independently of its audio's streams order in both." " ( F ) Cambiar el codec de audio 5.1 de AC3 640kbps a AAC 512 kbps independientemente del orden de los flujos de audio en ambos." " ( F ) Altere o codec de áudio 5.1 de AC3 640kbps para AAC 512kbps, independentemente da ordem dos fluxos de áudio em ambos." " ( F ) Modifiez le codec audio 5.1 de AC3 640kbps à AAC 512kbps quel que soit l'ordre des flux audio dans les deux." " ( F ) Ändern Sie den 5.1-Audiocodec von AC3 640 kbps auf AAC 512 kbps, unabhängig von der Reihenfolge der Audiostreams in beiden." " ( F ) Modificare il codec audio 5.1 da AC3 640 kbps a AAC 512 kbps indipendentemente dall'ordine dei flussi audio in entrambi.")
 text_configura_9=(" ( G ) Use only an Unique Audio's Stream in VIDEO-STATION (the first stream you had selected before) for save the system resources in low powered devices." " ( G ) Usar un único flujo de audio en VIDEO-STATION (el primer flujo que se haya seleccionado antes) para ahorrar recursos de sistema en dispositivos poco potentes." " ( G ) Use um único fluxo de áudio no VIDEO-STATION (o primeiro fluxo selecionado acima) para economizar recursos do sistema em dispositivos menos potentes." " ( G ) Utilisez un seul flux audio sur VIDEO-STATION (le premier flux sélectionné ci-dessus) pour économiser les ressources système sur les appareils moins puissants." " ( G ) Verwenden Sie einen einzelnen Audiostream auf VIDEO-STATION (den ersten oben ausgewählten Stream), um Systemressourcen auf weniger leistungsstarken Geräten zu sparen." " ( G ) Utilizzare un unico flusso audio su VIDEO-STATION (il primo flusso selezionato sopra) per risparmiare risorse di sistema su dispositivi meno potenti.")
 text_configura_10=(" ( H ) Use only an Unique Audio's Stream in DLNA MediaServer (the first stream you had selected before) for save the system resources in low powered devices." " ( H ) Usar un único flujo de audio en DLNA MediaServer (el primer flujo que se haya seleccionado antes) para ahorrar recursos de sistema en dispositivos poco potentes." " ( H ) Use um único fluxo de áudio no DLNA MediaServer (o primeiro fluxo selecionado acima) para economizar recursos do sistema em dispositivos menos potentes." " ( H ) Utilisez un seul flux audio sur DLNA MediaServer (le premier flux sélectionné ci-dessus) pour économiser les ressources système sur les appareils moins puissants." " ( H ) Verwenden Sie einen einzelnen Audiostream auf DLNA MediaServer (den ersten oben ausgewählten Stream), um Systemressourcen auf weniger leistungsstarken Geräten zu sparen." " ( H ) Utilizzare un unico flusso audio su DLNA MediaServer (il primo flusso selezionato sopra) per risparmiare risorse di sistema su dispositivi meno potenti.")
-text_configura_11=(" ( Z ) RETURN to MAIN menu." " ( Z ) VOLVER al menú PRINCIPAL." " ( Z ) VOLTAR ao menu PRINCIPAL." " ( Z ) RETOUR au menu PRINCIPAL." " ( Z ) ZURÜCK zum HAUPTMENÜ." " ( Z ) TORNA al menu PRINCIPALE.")
-text_configura_12=("Do you wish to change the order of these audio's streams in the Advanced wrapper?" "¿Deseas cambiar el orden de estos flujos de audio en el Wrapper Avanzado?" "Deseja alterar a ordem desses fluxos de áudio no Advanced Wrapper?" "Voulez-vous modifier l'ordre de ces flux audio dans Advanced Wrapper?" "Möchten Sie die Reihenfolge dieser Audiostreams im Advanced Wrapper ändern?" "Vuoi cambiare l'ordine di questi flussi audio nel Wrapper avanzato?")
-text_configura_13=("Please answer with the correct option writing: A or B or C or D or E or F or G or H. Write Z (for return to MAIN menu)." "Responda con la opción correcta escribiendo: A o B o C o D o E o F o G o H. Escriba Z (para volver al menú PRINCIPAL)." "Responda com a opção correta digitando: A ou B ou C ou D ou E ou F ou G ou H. Digite Z (para retornar ao menu PRINCIPAL)." "Répondez par l'option correcte en tapant : A ou B ou C ou D ou E ou F ou G ou H. Tapez Z (pour revenir au menu PRINCIPAL)." "Antworten Sie mit der richtigen Option, indem Sie Folgendes eingeben: A oder B oder C oder D oder E oder F oder G oder H. Geben Sie Z ein (um zum HAUPTMENÜ zurückzukehren)." "Rispondi con l'opzione corretta digitando: A o B o C o D o E o F o G o H. Digita Z (per tornare al menu PRINCIPALE).")
-text_configura_14=("==================== Configuration of the Advanced Wrapper: COMPLETE ====================" "==================== Configuración del Wrapper Avanzado: COMPLETADA ====================" "==================== Configuração avançada do wrapper: CONCLUÍDO ====================" "==================== Configuration avancée de l'encapsuleur : TERMINÉE ====================" "==================== Erweiterte Wrapper-Konfiguration: ABGESCHLOSSEN ====================" "==================== Configurazione avanzata del wrapper: COMPLETATA ====================")
-text_configura_15=("Actually You HAVEN'T THE ADVANCED WRAPPER INSTALLED so this codec Configurator CAN'T change anything." "Actualmente NO TIENES EL WRAPPER AVANZADO INSTALADO y este Configurador de codec NO PUEDE cambiar nada." "Atualmente, você NÃO TEM O WRAPPER AVANÇADO INSTALADO e este Configurador de Codec NÃO PODE alterar nada." "Actuellement, vous N'AVEZ PAS INSTALLÉ LE WRAPPER AVANCÉ et ce configurateur de codec NE PEUT PAS changer quoi que ce soit." "Sie haben derzeit den ADVANCED WRAPPER NICHT INSTALLIERT und dieser Codec-Konfigurator kann NICHTS ändern." "Al momento NON HAI INSTALLATO IL WRAPPER AVANZATO e questo configuratore di codec NON PUÒ modificare nulla.")
-text_configura_16=("Please, Install the Advanced Wrapper first and then you will can change the config for audio's streams." "Por favor, Instala el Wrapper Avanzado y después podrás cambiar la configuración de los flujos de audio." "Por favor, instale o Advanced Wrapper e então você pode alterar as configurações dos fluxos de áudio." "Veuillez installer Advanced Wrapper et vous pourrez ensuite modifier les paramètres des flux audio." "Bitte installieren Sie den Advanced Wrapper und dann können Sie die Einstellungen der Audiostreams ändern." "Si prega di installare il wrapper avanzato e quindi è possibile modificare le impostazioni dei flussi audio.")
+text_configura_11=(" ( I ) Change the number of audio channels (2.0) in the VIDEO-STATION's OffLine transcoding. (DEFAULT)" " ( I ) Cambiar el número de canales de audio (2.0) en la transcodificación OffLine del VIDEO-STATION. (POR DEFECTO)" " ( I ) Altere o número de canais de áudio (2.0) na transcodificação OffLine do VIDEO-STATION. (POR PADRÃO)" " ( I ) Modifiez le nombre de canaux audio (2.0) dans le transcodage hors ligne de la VIDEO-STATION. (PAR DÉFAUT)" " ( I ) Ändern Sie die Anzahl der Audiokanäle (2.0) in der Offline-Transkodierung der VIDEO-STATION. (STANDARD)" " ( I ) Modificare il numero di canali audio (2.0) nella transcodifica OffLine della VIDEO-STATION. (PREDEFINITO)")
+text_configura_12=(" ( J ) Change the number of audio channels (5.1) in the VIDEO-STATION's OffLine transcoding." " ( J ) Cambiar el número de canales de audio (5.1) en la transcodificación OffLine del VIDEO-STATION." " ( J ) Altere o número de canais de áudio (5.1) na transcodificação OffLine do VIDEO-STATION." " ( J ) Modifiez le nombre de canaux audio (5.1) dans le transcodage hors ligne de la VIDEO-STATION." " ( J ) Ändern Sie die Anzahl der Audiokanäle (5.1) in der Offline-Transkodierung der VIDEO-STATION." " ( J ) Modificare il numero di canali audio (5.1) nella transcodifica OffLine della VIDEO-STATION.")
+text_configura_21=(" ( Z ) RETURN to MAIN menu." " ( Z ) VOLVER al menú PRINCIPAL." " ( Z ) VOLTAR ao menu PRINCIPAL." " ( Z ) RETOUR au menu PRINCIPAL." " ( Z ) ZURÜCK zum HAUPTMENÜ." " ( Z ) TORNA al menu PRINCIPALE.")
+text_configura_22=("Do you wish to change the order of these audio's streams in the Advanced wrapper?" "¿Deseas cambiar el orden de estos flujos de audio en el Wrapper Avanzado?" "Deseja alterar a ordem desses fluxos de áudio no Advanced Wrapper?" "Voulez-vous modifier l'ordre de ces flux audio dans Advanced Wrapper?" "Möchten Sie die Reihenfolge dieser Audiostreams im Advanced Wrapper ändern?" "Vuoi cambiare l'ordine di questi flussi audio nel Wrapper avanzato?")
+text_configura_23=("Please answer with the correct option writing: A or B or C or D or E or F or G or H or I or J. Write Z (for return to MAIN menu)." "Responda con la opción correcta escribiendo: A o B o C o D o E o F o G o H o I o J. Escriba Z (para volver al menú PRINCIPAL)." "Responda com a opção correta digitando: A ou B ou C ou D ou E ou F ou G ou H ou I ou J. Digite Z (para retornar ao menu PRINCIPAL)." "Répondez par l'option correcte en tapant : A ou B ou C ou D ou E ou F ou G ou H ou I ou J. Tapez Z (pour revenir au menu PRINCIPAL)." "Antworten Sie mit der richtigen Option, indem Sie Folgendes eingeben: A oder B oder C oder D oder E oder F oder G oder H oder I oder J. Geben Sie Z ein (um zum HAUPTMENÜ zurückzukehren)." "Rispondi con l'opzione corretta digitando: A o B o C o D o E o F o G o H o I o J. Digita Z (per tornare al menu PRINCIPALE).")
+text_configura_24=("==================== Configuration of the Advanced Wrapper: COMPLETE ====================" "==================== Configuración del Wrapper Avanzado: COMPLETADA ====================" "==================== Configuração avançada do wrapper: CONCLUÍDO ====================" "==================== Configuration avancée de l'encapsuleur : TERMINÉE ====================" "==================== Erweiterte Wrapper-Konfiguration: ABGESCHLOSSEN ====================" "==================== Configurazione avanzata del wrapper: COMPLETATA ====================")
+text_configura_25=("Actually You HAVEN'T THE ADVANCED WRAPPER INSTALLED so this codec Configurator CAN'T change anything." "Actualmente NO TIENES EL WRAPPER AVANZADO INSTALADO y este Configurador de codec NO PUEDE cambiar nada." "Atualmente, você NÃO TEM O WRAPPER AVANÇADO INSTALADO e este Configurador de Codec NÃO PODE alterar nada." "Actuellement, vous N'AVEZ PAS INSTALLÉ LE WRAPPER AVANCÉ et ce configurateur de codec NE PEUT PAS changer quoi que ce soit." "Sie haben derzeit den ADVANCED WRAPPER NICHT INSTALLIERT und dieser Codec-Konfigurator kann NICHTS ändern." "Al momento NON HAI INSTALLATO IL WRAPPER AVANZATO e questo configuratore di codec NON PUÒ modificare nulla.")
+text_configura_26=("Please, Install the Advanced Wrapper first and then you will can change the config for audio's streams." "Por favor, Instala el Wrapper Avanzado y después podrás cambiar la configuración de los flujos de audio." "Por favor, instale o Advanced Wrapper e então você pode alterar as configurações dos fluxos de áudio." "Veuillez installer Advanced Wrapper et vous pourrez ensuite modifier les paramètres des flux audio." "Bitte installieren Sie den Advanced Wrapper und dann können Sie die Einstellungen der Audiostreams ändern." "Si prega di installare il wrapper avanzato e quindi è possibile modificare le impostazioni dei flussi audio.")
 
 if [[ "$check_amrif" == "$firma2" ]]; then
 YELLOW_BLUEMS="\u001b[33m"
@@ -1538,12 +1663,14 @@ if [[ "$check_amrif_1" == "$firma_cp" ]]; then
         echo -e "${YELLOW_BLUEMS}${text_configura_8[$LANG]}"
 	echo -e "${BLUE}${text_configura_9[$LANG]}"
 	echo -e "${RED_BLUEMS}${text_configura_10[$LANG]}"
+ 	echo -e "${BLUE}${text_configura_11[$LANG]}"
+ 	echo -e "${BLUE}${text_configura_12[$LANG]}"
         echo ""
-        echo -e "${PURPLE}${text_configura_11[$LANG]}"
+        echo -e "${PURPLE}${text_configura_21[$LANG]}"
    	while true; do
 	echo -e "${GREEN}"
-        read -p "${text_configura_12[$LANG]}" abcdefghz
-        case $abcdefghz in
+        read -p "${text_configura_22[$LANG]}" abcdefghijz
+        case $abcdefghijz in
         [Aa] ) config_A; break;;
         [Bb] ) config_B; break;;
 	[Cc] ) config_C; break;;
@@ -1552,19 +1679,21 @@ if [[ "$check_amrif_1" == "$firma_cp" ]]; then
 	[Ff] ) config_F; break;;
 	[Gg] ) config_G; break;;
 	[Hh] ) config_H; break;;
+ 	[Ii] ) config_I; break;;
+ 	[Jj] ) config_J; break;;
 	[Zz] ) reloadstart; break;;
-        * ) echo -e "${YELLOW}${text_configura_13[$LANG]}";;
+        * ) echo -e "${YELLOW}${text_configura_23[$LANG]}";;
         esac
         done
    
-   echo -e "${BLUE}${text_configura_14[$LANG]}"
+   echo -e "${BLUE}${text_configura_24[$LANG]}"
    info "${BLUE}==================== Configuration of the Advanced Wrapper: COMPLETE ====================" >> $logfile
    exit 0
 
 else
-   info "${RED}${text_configura_15[$LANG]}"
+   info "${RED}${text_configura_25[$LANG]}"
    info "${RED}Actually You HAVEN'T THE ADVANCED WRAPPER INSTALLED so this codec Configurator CAN'T change anything." >> $logfile
-   info "${BLUE}${text_configura_16[$LANG]}"
+   info "${BLUE}${text_configura_26[$LANG]}"
    start
 fi
 }
@@ -1586,10 +1715,6 @@ titulo
 check_root
 
 welcome
-
-check_dependencias
-
-check_licence_AME
 
 check_versions
 
